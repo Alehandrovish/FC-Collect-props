@@ -1,0 +1,83 @@
+* {
+  box-sizing: border-box;
+}
+body {
+  background-color: #3ea9f5;
+  font-family: sans-serif;
+}
+.formWrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+.form {
+  display: flex;
+  flex-direction: column;
+  color: white;
+  font-size: 1.25rem;
+  max-width: 600px;
+  gap: 30px;
+  margin: 20px;
+  text-align: center;
+}
+.formHeader {
+  display: flex;
+  gap: 20px;
+  flex-direction: column;
+}
+h1 {
+  font-size: 2.5rem;
+  font-weight: bold;
+  text-transform: uppercase;
+}
+.formInfo {
+  font-weight: bold;
+  font-size: 1.5rem;
+}
+.inputTextWrapper input,
+.sumbitBtn {
+  min-height: 65px;
+}
+.inputTextWrapper {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px 30px;
+}
+.inputTextWrapper input {
+  min-width: calc((600px / 2) - 30px);
+  flex-grow: 1;
+  padding-left: 20px;
+  border-radius: 5px;
+}
+.radioSection {
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+}
+.inputRadioWrapper {
+  display: flex;
+  border: 2px solid white;
+  padding: 15px 17px 25px 17px;
+  text-align: start;
+  gap: 15px;
+}
+.inputRadioWrapper input {
+  align-self: flex-start;
+}
+.radioDescription p {
+  margin-top: 5px;
+  font-size: 0.9rem;
+}
+.inputCheckboxWrapper {
+  font-size: 1rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+}
+.sumbitBtn {
+  background-color: #28d2d0;
+  color: white;
+  cursor: pointer;
+}
