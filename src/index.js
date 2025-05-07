@@ -14,17 +14,9 @@ pageForm.classList.add("form");
 
 const sectionHeader = document.createElement("section");
 const sectionText = sectionHeader.cloneNode();
-const sectionRadio = sectionHeader.cloneNode();
-const sectionCheckBox = sectionHeader.cloneNode();
 const inputBth = document.createElement("input");
 
-pageForm.append(
-  sectionHeader,
-  sectionText,
-  sectionRadio,
-  sectionCheckBox,
-  inputBth
-);
+pageForm.append(sectionHeader, sectionText, inputBth);
 
 //sectionHeader
 sectionHeader.classList.add("formHeader");
@@ -38,24 +30,27 @@ pHead.textContent = "We always keep your name and email address private.";
 
 sectionHeader.append(h1, pHead);
 
-//sectionText
+//sectionInputText
 sectionText.classList.add("inputTextWrapper");
 
 const inputName = document.createElement("input");
 const inputEmail = inputName.cloneNode();
-const inputPassword = inputName.cloneNode();
 
 inputName.setAttribute("type", "text");
 const inputLastName = inputName.cloneNode();
-const inputDisplayName = inputName.cloneNode();
+const inputNickName = inputName.cloneNode();
 inputName.setAttribute("placeholder", "First Name");
+inputName.setAttribute("name", "firstName");
 inputLastName.setAttribute("placeholder", "Last Name");
-inputDisplayName.setAttribute("placeholder", "Nick Name");
+inputLastName.setAttribute("name", "lastName");
+inputNickName.setAttribute("placeholder", "Nick Name");
+inputNickName.setAttribute("name", "nickName");
 
 inputEmail.setAttribute("type", "email");
 inputEmail.setAttribute("placeholder", "Email Address");
+inputEmail.setAttribute("name", "email");
 
-sectionText.append(inputName, inputLastName, inputDisplayName, inputEmail);
+sectionText.append(inputName, inputLastName, inputNickName, inputEmail);
 
 //inputBth
 inputBth.classList.add("sumbitBtn");
@@ -64,20 +59,24 @@ inputBth.setAttribute("value", "Create account");
 
 // Submit event
 
-const submitBtn = document.querySelector(".sumbitBtn");
-
 function createLocalPerson(e) {
   e.preventDefault();
-  const [firstName, lastName, nickName, email] = document.querySelectorAll(
-    ".inputTextWrapper > input"
-  );
-  const person = new Person(
-    firstName.value,
-    lastName.value,
-    nickName.value,
-    email.value
-  );
-  addPersonToLocalStorage(lastName.value, person);
+  const inputs = document.querySelectorAll(".inputTextWrapper > input");
+  const person = new Person(inputs);
+  inputs.forEach((i) => {
+    if (i.name === "lastName") {
+      addPersonToLocalStorage(i.value, person);
+      clearInputs(inputs);
+    }
+  });
+}
+
+class Person {
+  constructor(inputs) {
+    inputs.forEach((i) => {
+      this[i.name] = i.value; //можна було б збирати по placeholder, але через name надійніше
+    });
+  }
 }
 
 function addPersonToLocalStorage(lastName, person) {
@@ -88,13 +87,10 @@ function addPersonToLocalStorage(lastName, person) {
   localStorage.setItem(lastName, JSON.stringify(person));
 }
 
-submitBtn.onclick = createLocalPerson;
-
-class Person {
-  constructor(firstName, lastName, nickName, email) {
-    this.firstName = firstName;
-    this.lastName = lastName;
-    this.nickName = nickName;
-    this.email = email;
-  }
+function clearInputs(inputs) {
+  inputs.forEach((i) => {
+    i.value = "";
+  });
 }
+
+inputBth.addEventListener("click", createLocalPerson);
