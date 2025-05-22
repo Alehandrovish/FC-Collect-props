@@ -61,8 +61,8 @@ inputBth.setAttribute("value", "Create account");
 
 function createLocalPerson(e) {
   e.preventDefault();
-  const inputs = document.querySelectorAll(".inputTextWrapper > input");
-  const person = new Person(inputs);
+  const inputs = [...document.querySelectorAll(".inputTextWrapper > input")];
+  const person = new Person(...inputs);
   inputs.forEach((i) => {
     if (i.name === "lastName") {
       addPersonToLocalStorage(i.value, person);
@@ -72,7 +72,7 @@ function createLocalPerson(e) {
 }
 
 class Person {
-  constructor(inputs) {
+  constructor(...inputs) {
     inputs.forEach((i) => {
       this[i.name] = i.value; //можна було б збирати по placeholder, але через name надійніше
     });
@@ -84,7 +84,16 @@ function addPersonToLocalStorage(lastName, person) {
   if (localStorage.getItem(lastName)) {
     throw new Error("we have this guy already");
   }
-  localStorage.setItem(lastName, JSON.stringify(person));
+  localStorage.setItem(
+    lastName,
+    JSON.stringify(
+      person
+      //   (key, value) => {
+      //   return key === "email" ? "" : value;
+      // }
+    )
+    // 2
+  );
 }
 
 function clearInputs(inputs) {
